@@ -127,7 +127,7 @@ function ContactSection() {
 
                 {/* CV */}
                 <a 
-                  href="/cv-shaiffi-nay.pdf"
+                  href="/CV-Nay-Shaiffi-2025.pdf"
                   download
                   className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 transition-all duration-300 hover:scale-105 group"
                 >
