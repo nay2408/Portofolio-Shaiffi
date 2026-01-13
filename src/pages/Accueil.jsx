@@ -44,7 +44,7 @@ function ContactSection() {
         EMAILJS_PUBLIC_KEY
       );
 
-      console.log('✅ Email envoyé avec succès:', result);
+      console.log('Email envoyé avec succès:', result);
       setIsSubmitted(true);
       
       setTimeout(() => {
@@ -53,7 +53,7 @@ function ContactSection() {
       }, 5000);
       
     } catch (error) {
-      console.error('❌ Erreur lors de l\'envoi:', error);
+      console.error('Erreur lors de l\'envoi:', error);
       setIsError(true);
       
       setTimeout(() => {
@@ -310,6 +310,7 @@ function ContactSection() {
 function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -401,11 +402,11 @@ function Portfolio() {
                 </button>
                 
                 <button 
-                  onClick={() => scrollToSection('experience')}
+                  onClick={() => setShowVideoModal(true)}
                   className="flex items-center gap-3 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-medium border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300"
                 >
                   <Code className="w-5 h-5" />
-                  <span>Mes projets</span>
+                  <span>Visualiser un projet</span>
                 </button>
               </div>
 
@@ -433,7 +434,7 @@ function Portfolio() {
                   {/* Carte photo */}
                   <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden shadow-2xl w-80 h-96 border border-white/10">
                     <div className="w-full h-full flex items-center justify-center p-8">
-                      <img src="/ico.png" alt="NAY Shaiffi" className='rounded-2xl w-full h-full object-cover'/>
+                      <img src="/Fond.jpeg" alt="NAY Shaiffi" className='rounded-2xl w-full h-full object-cover'/>
                     </div>
                     
                     {/* Overlay décoratif */}
@@ -656,6 +657,58 @@ function Portfolio() {
 
       {/* Section Contact */}
       <ContactSection />
+      {showVideoModal && (
+  <div 
+    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+    onClick={() => setShowVideoModal(false)}
+  >
+    <div 
+      className="relative w-full max-w-5xl bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl shadow-2xl border border-white/10 overflow-hidden"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Header de la modale */}
+      <div className="flex items-center justify-between p-6 border-b border-white/10">
+        <div className="flex items-center gap-3">
+          <div className="bg-gradient-to-br from-blue-500 to-emerald-500 p-2 rounded-lg">
+            <Code className="w-5 h-5 text-white" />
+          </div>
+          <h3 className="text-2xl font-bold text-white">Démonstration du projet</h3>
+        </div>
+        <button
+          onClick={() => setShowVideoModal(false)}
+          className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Contenu vidéo */}
+      <div className="p-6">
+        <div className="relative bg-black rounded-2xl overflow-hidden shadow-2xl">
+          <video
+  src="/demonstration.mp4"
+  controls
+  autoPlay
+  muted  // AJOUTEZ CECI
+  playsInline  // AJOUTEZ CECI pour la compatibilité iOS
+  preload="metadata"
+  onEnded={() => setShowVideoModal(false)}
+>
+          </video>
+        </div>
+        
+        {/* Description optionnelle */}
+        <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10">
+          <p className="text-gray-300 text-sm">
+            <span className="font-semibold text-white">Note:</span> Vidéo de démonstration du projet développé durant mon expérience professionnelle.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
