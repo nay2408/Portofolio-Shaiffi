@@ -381,14 +381,16 @@ function Portfolio() {
                 </h1>
                 
                 <p className="text-2xl text-gray-300 font-light">
-                  Développeur Full-Stack
+                  QA Engineer · Cypress · Robot Framework · SQL
                 </p>
 
                 <p className="text-xl text-gray-400 leading-relaxed pt-4">
-                  Créateur d'applications web qui allient{' '}
-                  <span className="text-blue-400 font-semibold">performance</span>,{' '}
-                  <span className="text-emerald-400 font-semibold">design</span> et{' '}
-                  <span className="text-purple-400 font-semibold">expérience utilisateur</span>.
+                  Je m'assure que les applications fonctionnent{' '}
+                  <span className="text-blue-400 font-semibold">parfaitement</span>{' '}
+                  avant qu'elles arrivent chez les{' '}
+                  <span className="text-emerald-400 font-semibold">utilisateurs</span>.{' '}
+                  Tests manuels, automatisation et{' '}
+                  <span className="text-purple-400 font-semibold">rapports de qualité</span>.
                 </p>
               </div>
 
@@ -474,18 +476,18 @@ function Portfolio() {
                 
                 <div className="space-y-4 text-gray-300 leading-relaxed">
                   <p>
-                    Passionné par le <span className="text-blue-400 font-semibold">code</span>, 
-                    l'<span className="text-emerald-400 font-semibold">expérience utilisateur</span> et 
-                    la résolution de <span className="text-purple-400 font-semibold">problèmes complexes</span>.
+                    Passionné par la <span className="text-blue-400 font-semibold">qualité logicielle</span>, 
+                    la <span className="text-emerald-400 font-semibold">détection de bugs</span> et 
+                    l'<span className="text-purple-400 font-semibold">automatisation des tests</span>.
                   </p>
                   <p>
-                    Je construis des solutions web complètes, du design à la base de données.
+                    Je construis des plans de test rigoureux, automatise les scénarios répétitifs et rédige des rapports clairs pour les équipes de développement.
                   </p>
                   <p>
                     Je m'appelle <span className='font-bold text-white'>NAY Shaiffi</span>, 
-                    Développeur junior passionné dans la création d'applications web modernes. 
-                    J'ai débuté en explorant le développement front-end avant de me spécialiser 
-                    en full-stack, ce qui me permet de créer des solutions complètes de A à Z.
+                    QA Engineer junior basé à Antananarivo, Madagascar. 
+                    Diplômé en informatique, je me spécialise dans les tests fonctionnels 
+                    et l'automatisation avec Cypress et Robot Framework.
                   </p>
                 </div>
               </div>
@@ -495,9 +497,9 @@ function Portfolio() {
             <div className="space-y-6">
               <div className="grid gap-6">
                 {[
-                  { icon: Code, title: 'Code de qualité', desc: 'Code propre, maintenable et performant' },
-                  { icon: Sparkles, title: 'Innovation', desc: 'Toujours à l\'affût des nouvelles technologies' },
-                  { icon: Zap, title: 'Performance', desc: 'Applications rapides et optimisées' }
+                  { icon: Code, title: 'Tests rigoureux', desc: 'Checklists structurées, cas limites et tests avancés' },
+                  { icon: Sparkles, title: 'Automatisation', desc: 'Cypress & Robot Framework pour les tests répétitifs' },
+                  { icon: Zap, title: 'Rapports clairs', desc: 'Documentation précise et compréhensible pour les devs' }
                 ].map((item, idx) => (
                   <div key={idx} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:scale-105 transition-all duration-300">
                     <div className="flex items-start gap-4">
@@ -517,75 +519,75 @@ function Portfolio() {
         </div>
       </section>
 
-      {/* Section Compétences - Redesignée */}
+      {/* Section Compétences QA */}
       <section id="skills" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <span className="text-emerald-400 font-semibold text-sm uppercase tracking-wider">Expertise</span>
-            <h2 className="text-5xl font-bold text-white mt-4 mb-6">Mes compétences</h2>
+            <h2 className="text-5xl font-bold text-white mt-4 mb-6">Mes compétences QA</h2>
             <div className="w-24 h-1.5 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full"></div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Logiciels */}
+            {/* Tests */}
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
               <div className="flex items-center gap-3 mb-6">
                 <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-3 rounded-lg">
                   <Package className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-white">Logiciels</h3>
+                <h3 className="text-xl font-semibold text-white">Tests manuels</h3>
               </div>
-              
-              <div className="flex flex-col items-center gap-4 py-6">
-                <div className="bg-white/10 rounded-xl p-4 hover:bg-white/20 transition-all">
-                  <img src='/win25.png' alt='Windev' className='w-20 h-20 object-contain'/>
-                </div>
-                <span className="text-gray-300 font-medium">Windev 25</span>
-              </div>
-            </div>
-
-            {/* Frameworks */}
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-gradient-to-br from-emerald-500 to-blue-500 p-3 rounded-lg">
-                  <Layers className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-white">Frameworks</h3>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { img: '/dj75.jpg', name: 'Django' },
-                  { img: '/node75.jpg', name: 'Node.js' },
-                  { img: '/symfony75.jpg', name: 'Symfony' },
-                  { img: '/react75.jpg', name: 'React' },
-                  { img: '/tailwind.jpeg', name: 'Tailwind' }
-                ].map((tech, idx) => (
-                  <div key={idx} className="flex flex-col items-center gap-2">
-                    <div className="bg-white/10 rounded-lg p-3 hover:bg-white/20 transition-all hover:scale-110">
-                      <img src={tech.img} alt={tech.name} className='w-12 h-12 object-contain rounded'/>
-                    </div>
-                    <span className="text-gray-300 text-sm">{tech.name}</span>
+              <div className="space-y-3">
+                {['Tests fonctionnels', 'Tests d\'authentification', 'Tests de régression', 'Tests avancés (réseau, session)', 'Rédaction de rapports de bugs', 'Checklists structurées'].map((skill, idx) => (
+                  <div key={idx} className="flex items-center gap-3 text-gray-300">
+                    <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex-shrink-0"></div>
+                    <span>{skill}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Langages */}
+            {/* Automatisation */}
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-gradient-to-br from-emerald-500 to-blue-500 p-3 rounded-lg">
+                  <Layers className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-white">Automatisation</h3>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { name: 'Cypress', level: '75%', color: 'from-emerald-400 to-cyan-400' },
+                  { name: 'Robot Framework', level: '60%', color: 'from-blue-400 to-purple-400' },
+                  { name: 'Git / GitHub', level: '70%', color: 'from-purple-400 to-pink-400' },
+                  { name: 'SQL', level: '65%', color: 'from-yellow-400 to-orange-400' },
+                ].map((tool, idx) => (
+                  <div key={idx}>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="text-gray-300">{tool.name}</span>
+                      <span className="text-gray-400">{tool.level}</span>
+                    </div>
+                    <div className="h-2 bg-white/10 rounded-full">
+                      <div className={`h-full bg-gradient-to-r ${tool.color} rounded-full`} style={{width: tool.level}}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Outils & Tech */}
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
               <div className="flex items-center gap-3 mb-6">
                 <div className="bg-gradient-to-br from-purple-500 to-pink-500 p-3 rounded-lg">
                   <Code className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-white">Langages</h3>
+                <h3 className="text-xl font-semibold text-white">Outils & Tech</h3>
               </div>
-              
-              <div className="space-y-3">
-                {['Python', 'JavaScript', 'PHP', 'SQL', 'Java', 'HTML', 'CSS'].map((lang, idx) => (
-                  <div key={idx} className="flex items-center gap-3 text-gray-300">
-                    <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
-                    <span>{lang}</span>
-                  </div>
+              <div className="flex flex-wrap gap-2">
+                {['Cypress', 'Robot Framework', 'Git', 'GitHub', 'SQL', 'JavaScript', 'HTML/CSS', 'Tailwind', 'Figma', 'Excel', 'Jira (notions)'].map((tech, idx) => (
+                  <span key={idx} className="bg-white/10 text-gray-300 px-3 py-1 rounded-full text-sm hover:bg-blue-500/20 hover:text-blue-300 transition-all">
+                    {tech}
+                  </span>
                 ))}
               </div>
             </div>
@@ -605,21 +607,47 @@ function Portfolio() {
           </div>
 
           <div className="space-y-12">
-            {/* Expérience 2025 */}
+            {/* DEVSOFT-PRO - QA actuel */}
+            <div className="relative pl-12 group">
+              <div className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-emerald-500 to-transparent"></div>
+              <div className="absolute left-[-8px] top-2 w-4 h-4 bg-emerald-500 rounded-full ring-4 ring-emerald-500/20 group-hover:ring-8 transition-all"></div>
+              
+              <div className="bg-white/5 backdrop-blur-sm border border-emerald-500/30 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-emerald-400 font-semibold text-sm">2026 — Présent</span>
+                  <span className="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-semibold">✅ Poste actuel</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mt-2 mb-1">QA Engineer</h3>
+                <p className="text-emerald-400 mb-3 font-medium">DEVSOFT-PRO · Antananarivo</p>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  Tests fonctionnels manuels et automatisation sur applications web. Rédaction de checklists structurées, rapports de bugs et automatisation des tests de login avec Cypress et Robot Framework.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {['Cypress', 'Robot Framework', 'Tests fonctionnels', 'Rapports de bugs', 'Git', 'SQL'].map((tech, idx) => (
+                    <span key={idx} className="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-sm">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Ministère */}
             <div className="relative pl-12 group">
               <div className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-blue-500 to-transparent"></div>
               <div className="absolute left-[-8px] top-2 w-4 h-4 bg-blue-500 rounded-full ring-4 ring-blue-500/20 group-hover:ring-8 transition-all"></div>
               
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-                <span className="text-blue-400 font-semibold text-sm">2025</span>
-                <h3 className="text-2xl font-bold text-white mt-2 mb-3">
-                  Stagiaire Développeur Front-end Symfony
+                <span className="text-blue-400 font-semibold text-sm">Juillet 2025 — Novembre 2025</span>
+                <h3 className="text-2xl font-bold text-white mt-2 mb-1">
+                  Chargé de projet numérique
                 </h3>
+                <p className="text-blue-400 mb-3 font-medium">Ministère des Travaux Publics · Anosy</p>
                 <p className="text-gray-300 leading-relaxed">
-                  Création d'une application web de suivi de questions et réponses durant les rencontres parlementaires avec Symfony et MySQL comme base de données.
+                  Conception d'un outil de suivi des échanges parlementaires. Interfaces fluides avec Tailwind CSS et JavaScript.
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
-                  {['Symfony', 'MySQL', 'Front-end'].map((tech, idx) => (
+                  {['Tailwind CSS', 'JavaScript', 'Gestion de projet'].map((tech, idx) => (
                     <span key={idx} className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">
                       {tech}
                     </span>
@@ -628,23 +656,23 @@ function Portfolio() {
               </div>
             </div>
 
-            {/* Expérience 2024 */}
+            {/* Paositra */}
             <div className="relative pl-12 group">
-              <div className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-emerald-500 to-transparent"></div>
-              <div className="absolute left-[-8px] top-2 w-4 h-4 bg-emerald-500 rounded-full ring-4 ring-emerald-500/20 group-hover:ring-8 transition-all"></div>
+              <div className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-purple-500 to-transparent"></div>
+              <div className="absolute left-[-8px] top-2 w-4 h-4 bg-purple-500 rounded-full ring-4 ring-purple-500/20 group-hover:ring-8 transition-all"></div>
               
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-                <span className="text-emerald-400 font-semibold text-sm">2024</span>
-                <h3 className="text-2xl font-bold text-white mt-2 mb-3">
-                  Stagiaire Développeur Full-stack
+                <span className="text-purple-400 font-semibold text-sm">Novembre 2024 — Janvier 2025</span>
+                <h3 className="text-2xl font-bold text-white mt-2 mb-1">
+                  Apprenti Développeur Web
                 </h3>
-                <p className="text-gray-400 mb-3">Paositra Malagasy</p>
+                <p className="text-purple-400 mb-3 font-medium">Paositra Malagasy</p>
                 <p className="text-gray-300 leading-relaxed">
-                  Création d'une plateforme d'échange de devise complète.
+                  Développement d'un outil de conversion de devises (Ariary, Euro, Dollars).
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
-                  {['Full-stack', 'Platform Development'].map((tech, idx) => (
-                    <span key={idx} className="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-sm">
+                  {['Full-stack', 'JavaScript', 'Logique métier'].map((tech, idx) => (
+                    <span key={idx} className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm">
                       {tech}
                     </span>
                   ))}
