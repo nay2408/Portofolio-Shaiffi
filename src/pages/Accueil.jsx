@@ -719,8 +719,8 @@ function Portfolio() {
   src="/demonstration.mp4"
   controls
   autoPlay
-  muted  // AJOUTEZ CECI
-  playsInline  // AJOUTEZ CECI pour la compatibilité iOS
+  muted  
+  playsInline  
   preload="metadata"
   onEnded={() => setShowVideoModal(false)}
 >
