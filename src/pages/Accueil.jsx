@@ -584,7 +584,7 @@ function Portfolio() {
                 <h3 className="text-xl font-semibold text-white">Outils & Tech</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {['Cypress', 'Robot Framework', 'Git', 'GitHub', 'SQL', 'JavaScript', 'HTML/CSS', 'Tailwind', 'Figma', 'Excel'].map((tech, idx) => (
+                {['Cypress', 'Robot Framework', 'Git', 'GitHub', 'SQL', 'JavaScript', 'React', 'ViteJS', 'HTML/CSS', 'Tailwind', 'Figma', 'Excel'].map((tech, idx) => (
                   <span key={idx} className="bg-white/10 text-gray-300 px-3 py-1 rounded-full text-sm hover:bg-blue-500/20 hover:text-blue-300 transition-all">
                     {tech}
                   </span>
