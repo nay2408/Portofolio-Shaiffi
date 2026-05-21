@@ -1,4 +1,3 @@
-import FormationCypress from '../Components/FormationCypress';
 import { Mail, Code, Briefcase, Zap, Package, Layers, Github, Linkedin, ExternalLink, ChevronDown, Sparkles, Phone, MapPin, Send, CheckCircle, AlertCircle, FileText } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
