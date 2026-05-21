@@ -685,7 +685,6 @@ function Portfolio() {
       </section>
 
       {/* Section Contact */}
-       <FormationCypress />
       <ContactSection />
       {showVideoModal && (
   <div 
