@@ -623,7 +623,7 @@ function Portfolio() {
                   Tests fonctionnels manuels et automatisation sur applications web. Rédaction de checklists structurées, rapports de bugs et automatisation des tests de login avec Cypress et Robot Framework.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {['Cypress', 'Robot Framework', 'Tests fonctionnels', 'Rapports de bugs', 'Git', 'SQL'].map((tech, idx) => (
+                  {['Cypress', 'Robot Framework', 'Tests fonctionnels', 'Rapports de bugs'].map((tech, idx) => (
                     <span key={idx} className="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-sm">
                       {tech}
                     </span>
