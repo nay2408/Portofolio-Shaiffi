@@ -559,7 +559,6 @@ function Portfolio() {
                 {[
                   { name: 'Cypress', level: '75%', color: 'from-emerald-400 to-cyan-400' },
                   { name: 'Robot Framework', level: '60%', color: 'from-blue-400 to-purple-400' },
-                  { name: 'Git / GitHub', level: '70%', color: 'from-purple-400 to-pink-400' },
                   { name: 'SQL', level: '50%', color: 'from-yellow-400 to-orange-400' },
                 ].map((tool, idx) => (
                   <div key={idx}>
