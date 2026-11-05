@@ -1,28 +1,153 @@
-import { Mail, Code, Briefcase, Zap, Package, Layers, Github, Linkedin, ExternalLink, ChevronDown, Sparkles, Phone, MapPin, Send, CheckCircle, AlertCircle, FileText } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import emailjs from '@emailjs/browser';
+import {
+  AlertCircle,
+  ArrowUpRight,
+  Bug,
+  CheckCircle2,
+  Code2,
+  Download,
+  FileText,
+  Github,
+  Layers,
+  Linkedin,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
+  Play,
+  Send,
+  ShieldCheck,
+  Sparkles,
+  X,
+} from 'lucide-react';
 
-function ContactSection() {
+const EMAILJS_SERVICE_ID = 'service_v9acyg9';
+const EMAILJS_TEMPLATE_ID = 'template_bgc3w0c';
+const EMAILJS_PUBLIC_KEY = 'oEr--0Ipt5fYwXVl7';
+
+const NAV_ITEMS = [
+  { id: 'home', label: 'Accueil' },
+  { id: 'about', label: 'À propos' },
+  { id: 'skills', label: 'Compétences' },
+  { id: 'experience', label: 'Expérience' },
+  { id: 'contact', label: 'Contact' },
+];
+
+const EXPERIENCES = [
+  {
+    period: '2026 — Présent',
+    role: 'QA Engineer',
+    company: 'DEVSOFT-PRO',
+    location: 'Antananarivo',
+    current: true,
+    description:
+      "Tests fonctionnels manuels et automatisation des scénarios récurrents sur applications web. Rédaction de checklists structurées, rapports de bugs détaillés et suivi de la qualité jusqu'à la mise en production.",
+    tags: ['Playwright', 'Tests fonctionnels', 'Tests API', 'Rapports de bugs'],
+  },
+  {
+    period: 'Juil. — Nov. 2025',
+    role: 'Chargé de projet numérique',
+    company: 'Ministère des Travaux Publics',
+    location: 'Anosy',
+    description:
+      "Conception d'un outil de suivi des échanges parlementaires. Interfaces fluides et accessibles développées avec Tailwind CSS et JavaScript.",
+    tags: ['Tailwind CSS', 'JavaScript', 'Gestion de projet'],
+  },
+  {
+    period: 'Nov. 2024 — Janv. 2025',
+    role: 'Apprenti Développeur Web',
+    company: 'Paositra Malagasy',
+    location: '',
+    description:
+      "Développement d'un outil de conversion de devises (Ariary, Euro, Dollar) avec une logique métier fiable et une interface simple d'utilisation.",
+    tags: ['Full-stack', 'JavaScript', 'Logique métier'],
+  },
+];
+
+const AUTOMATION_SKILLS = [
+  { name: 'Playwright', level: 75, bar: 'bg-accent' },
+  { name: 'Postman', level: 60, bar: 'bg-emerald-400' },
+  { name: 'SQL', level: 50, bar: 'bg-amber-400' },
+];
+
+const MANUAL_SKILLS = [
+  'Tests fonctionnels',
+  "Tests d'authentification",
+  'Tests de régression',
+  'Tests avancés (réseau, session)',
+  'Rapports de bugs',
+  'Checklists structurées',
+];
+
+const TOOLS = [
+  'Playwright',
+  'Postman',
+  'Git',
+  'GitHub',
+  'SQL',
+  'JavaScript',
+  'React',
+  'ViteJS',
+  'HTML/CSS',
+  'Tailwind',
+  'Figma',
+  'Excel',
+];
+
+const VALUES = [
+  {
+    icon: ShieldCheck,
+    title: 'Tests rigoureux',
+    desc: 'Plans de test structurés, cas limites et scénarios avancés.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Automatisation',
+    desc: 'Playwright pour les tests récurrents, Postman pour les tests d’API.',
+  },
+  {
+    icon: Bug,
+    title: 'Rapports clairs',
+    desc: 'Des bugs documentés de façon précise et directement exploitable.',
+  },
+];
+
+function SectionHeader({ index, label, title, description }) {
+  return (
+    <div className="mb-12 flex flex-col gap-6 border-b border-white/10 pb-8 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-accent">
+          <span className="text-white/30">{index}</span> — {label}
+        </p>
+        <h2 className="mt-3 text-balance font-display text-3xl font-semibold tracking-tight text-white md:text-4xl">
+          {title}
+        </h2>
+      </div>
+      {description && (
+        <p className="max-w-sm text-sm leading-relaxed text-white/45 md:text-right">{description}</p>
+      )}
+    </div>
+  );
+}
+
+export function ContactSection() {
   const [formData, setFormData] = useState({
     nom: '',
     email: '',
     sujet: '',
-    message: ''
+    message: '',
   });
-  
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const EMAILJS_SERVICE_ID = 'service_v9acyg9';
-  const EMAILJS_TEMPLATE_ID = 'template_bgc3w0c';
-  const EMAILJS_PUBLIC_KEY = 'oEr--0Ipt5fYwXVl7';
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -32,7 +157,7 @@ function ContactSection() {
     setIsError(false);
 
     try {
-      const result = await emailjs.send(
+      await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
@@ -44,18 +169,16 @@ function ContactSection() {
         EMAILJS_PUBLIC_KEY
       );
 
-      console.log('Email envoyé avec succès:', result);
       setIsSubmitted(true);
-      
+
       setTimeout(() => {
         setIsSubmitted(false);
         setFormData({ nom: '', email: '', sujet: '', message: '' });
       }, 5000);
-      
     } catch (error) {
-      console.error('Erreur lors de l\'envoi:', error);
+      console.error("Erreur lors de l'envoi:", error);
       setIsError(true);
-      
+
       setTimeout(() => {
         setIsError(false);
       }, 5000);
@@ -65,190 +188,190 @@ function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-32 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-950/20 to-transparent"></div>
-      
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-20">
-          <span className="text-pink-400 font-semibold text-sm uppercase tracking-wider">Contact</span>
-          <h2 className="text-5xl font-bold text-white mt-4 mb-6">Travaillons ensemble</h2>
-          <div className="w-24 h-1.5 bg-gradient-to-r from-pink-500 to-purple-500 mx-auto rounded-full"></div>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto mt-6">
-            Une question ? Un projet ? N'hésitez pas à me contacter !
-          </p>
-        </div>
+    <section id="contact" className="relative py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHeader
+          index="04"
+          label="Contact"
+          title="Discutons de votre prochain projet."
+          description="Une question, une opportunité ou un besoin en assurance qualité ? Écrivez-moi."
+        />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Colonne gauche - Informations */}
-          <div className="space-y-6">
-            {/* Coordonnées */}
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-white mb-6">Mes Coordonnées</h3>
-              
-              <div className="space-y-4">
-                {/* Email */}
-                <a 
+        <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+              <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
+                Coordonnées
+              </p>
+
+              <div className="space-y-1">
+                <a
                   href="mailto:shaiffinay07@gmail.com"
-                  className="flex items-start gap-4 p-4 rounded-xl hover:bg-blue-500/20 transition-all duration-300 group"
+                  className="group flex items-center gap-4 rounded-xl px-3 py-3 transition hover:bg-white/[0.04]"
                 >
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-blue-500/30 transition-all">
-                    <Mail className="text-blue-400" size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white mb-1">Email</h4>
-                    <p className="text-gray-300 text-sm">shaiffinay07@gmail.com</p>
-                  </div>
+                  <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
+                    <Mail size={18} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-xs text-white/40">Email</span>
+                    <span className="block truncate text-sm text-white">shaiffinay07@gmail.com</span>
+                  </span>
+                  <ArrowUpRight
+                    size={16}
+                    className="ml-auto flex-shrink-0 text-white/25 transition group-hover:text-accent"
+                  />
                 </a>
 
-                {/* Téléphone */}
-                <a 
+                <a
                   href="tel:+261349634974"
-                  className="flex items-start gap-4 p-4 rounded-xl hover:bg-emerald-500/20 transition-all duration-300 group"
+                  className="group flex items-center gap-4 rounded-xl px-3 py-3 transition hover:bg-white/[0.04]"
                 >
-                  <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-500/30 transition-all">
-                    <Phone className="text-emerald-400" size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white mb-1">Téléphone</h4>
-                    <p className="text-gray-300 text-sm">+261 34 96 349 74</p>
-                  </div>
+                  <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-emerald-300">
+                    <Phone size={18} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-xs text-white/40">Téléphone</span>
+                    <span className="block text-sm text-white">+261 34 96 349 74</span>
+                  </span>
+                  <ArrowUpRight
+                    size={16}
+                    className="ml-auto flex-shrink-0 text-white/25 transition group-hover:text-emerald-300"
+                  />
                 </a>
 
-                {/* Localisation */}
-                <div className="flex items-start gap-4 p-4 rounded-xl">
-                  <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MapPin className="text-purple-400" size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white mb-1">Localisation</h4>
-                    <p className="text-gray-300 text-sm">Antananarivo, Madagascar 🇲🇬</p>
-                  </div>
+                <div className="flex items-center gap-4 rounded-xl px-3 py-3">
+                  <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-white/60">
+                    <MapPin size={18} />
+                  </span>
+                  <span>
+                    <span className="block text-xs text-white/40">Localisation</span>
+                    <span className="block text-sm text-white">Antananarivo, Madagascar</span>
+                  </span>
                 </div>
 
-                {/* CV */}
-                <a 
+                <a
                   href="/CV-Nay-Shaiffi-2025.pdf"
                   download
-                  className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 transition-all duration-300 hover:scale-105 group"
+                  className="mt-3 flex items-center gap-4 rounded-xl border border-accent/25 bg-accent/10 px-4 py-3.5 transition hover:bg-accent/15"
                 >
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <FileText className="text-white" size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white mb-1">Mon CV</h4>
-                    <p className="text-pink-100 text-sm">Télécharger (PDF)</p>
-                  </div>
+                  <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg bg-accent text-ink-950">
+                    <FileText size={18} />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-medium text-white">Télécharger mon CV</span>
+                    <span className="block text-xs text-white/45">Document PDF</span>
+                  </span>
+                  <Download size={16} className="ml-auto flex-shrink-0 text-accent" />
                 </a>
               </div>
             </div>
 
-            {/* Réseaux sociaux */}
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-white mb-6">Retrouvez-moi</h3>
-              
-              <div className="flex flex-col gap-4">
-                <a 
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+              <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
+                Réseaux
+              </p>
+              <div className="grid grid-cols-2 gap-3">
+                <a
                   href="https://github.com/nay2408"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 bg-gradient-to-r from-gray-700 to-gray-900 text-white px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300"
+                  className="flex items-center gap-3 rounded-xl border border-white/10 px-4 py-3 text-sm text-white/70 transition hover:border-white/20 hover:bg-white/[0.04] hover:text-white"
                 >
-                  <Github size={24} />
-                  <span className="font-medium">GitHub</span>
-                  <ExternalLink size={16} className="ml-auto" />
+                  <Github size={18} />
+                  GitHub
                 </a>
-                
-                <a 
+                <a
                   href="https://www.linkedin.com/in/shaiffi-nay-747870399"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl hover:scale-105 transition-all duration-300"
+                  className="flex items-center gap-3 rounded-xl border border-white/10 px-4 py-3 text-sm text-white/70 transition hover:border-white/20 hover:bg-white/[0.04] hover:text-white"
                 >
-                  <Linkedin size={24} />
-                  <span className="font-medium">LinkedIn</span>
-                  <ExternalLink size={16} className="ml-auto" />
+                  <Linkedin size={18} />
+                  LinkedIn
                 </a>
               </div>
             </div>
 
-            {/* Disponibilité */}
-            <div className="bg-gradient-to-r from-emerald-500/20 to-blue-500/20 backdrop-blur-sm border border-white/10 p-8 rounded-2xl">
-              <h3 className="text-xl font-bold text-white mb-3">Disponibilité</h3>
-              <p className="text-gray-300 text-sm mb-4">
-                Actuellement disponible pour des projets freelance et des opportunités de collaboration.
-              </p>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></span>
-                <span className="text-sm font-medium text-emerald-300">Ouvert aux propositions</span>
+            <div className="flex items-start gap-4 rounded-2xl border border-emerald-400/20 bg-emerald-400/[0.06] p-6">
+              <span className="mt-0.5 grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg border border-emerald-400/20 bg-emerald-400/10 text-emerald-300">
+                <CheckCircle2 size={18} />
+              </span>
+              <div>
+                <p className="text-sm font-medium text-white">Ouvert aux propositions</p>
+                <p className="mt-1 text-sm leading-relaxed text-white/50">
+                  Disponible pour des missions freelance et des opportunités en assurance qualité.
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Colonne droite - Formulaire */}
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-            <h3 className="text-2xl font-bold text-white mb-6">Envoyez-moi un message</h3>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+            <h3 className="font-display text-xl font-semibold text-white">Envoyez-moi un message</h3>
+            <p className="mt-2 text-sm text-white/45">Réponse sous 24 à 48 heures.</p>
 
             {isSubmitted ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mb-4 animate-bounce">
-                  <CheckCircle className="text-emerald-400" size={32} />
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <div className="grid h-14 w-14 place-items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 text-emerald-300">
+                  <CheckCircle2 size={26} />
                 </div>
-                <h4 className="text-xl font-bold text-white mb-2">Message envoyé !</h4>
-                <p className="text-gray-300">Je vous répondrai dans les plus brefs délais.</p>
+                <h4 className="mt-5 font-display text-lg font-semibold text-white">Message envoyé</h4>
+                <p className="mt-2 text-sm text-white/50">
+                  Merci pour votre message, je reviens vers vous très vite.
+                </p>
               </div>
             ) : isError ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mb-4">
-                  <AlertCircle className="text-red-400" size={32} />
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <div className="grid h-14 w-14 place-items-center rounded-full border border-red-400/30 bg-red-400/10 text-red-300">
+                  <AlertCircle size={26} />
                 </div>
-                <h4 className="text-xl font-bold text-white mb-2">Erreur d'envoi</h4>
-                <p className="text-gray-300 mb-4">Une erreur s'est produite. Veuillez réessayer.</p>
+                <h4 className="mt-5 font-display text-lg font-semibold text-white">Erreur d’envoi</h4>
+                <p className="mt-2 text-sm text-white/50">
+                  Une erreur s’est produite. Merci de réessayer.
+                </p>
                 <button
                   onClick={() => setIsError(false)}
-                  className="text-blue-400 hover:text-blue-300 font-semibold underline"
+                  className="mt-4 text-sm font-medium text-accent underline underline-offset-4 hover:text-accent-soft"
                 >
                   Retour au formulaire
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Nom */}
-                <div>
-                  <label htmlFor="nom" className="block text-sm font-semibold text-gray-300 mb-2">
-                    Nom complet *
-                  </label>
-                  <input
-                    type="text"
-                    id="nom"
-                    name="nom"
-                    value={formData.nom}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
-                    placeholder="Votre nom"
-                  />
+              <form onSubmit={handleSubmit} className="mt-7 space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="nom" className="mb-2 block text-xs font-medium text-white/50">
+                      Nom complet *
+                    </label>
+                    <input
+                      type="text"
+                      id="nom"
+                      name="nom"
+                      value={formData.nom}
+                      onChange={handleChange}
+                      required
+                      placeholder="Votre nom"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/40"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="mb-2 block text-xs font-medium text-white/50">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="vous@email.com"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/40"
+                    />
+                  </div>
                 </div>
 
-                {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
-                    placeholder="votre@email.com"
-                  />
-                </div>
-
-                {/* Sujet */}
-                <div>
-                  <label htmlFor="sujet" className="block text-sm font-semibold text-gray-300 mb-2">
+                  <label htmlFor="sujet" className="mb-2 block text-xs font-medium text-white/50">
                     Sujet *
                   </label>
                   <input
@@ -258,14 +381,13 @@ function ContactSection() {
                     value={formData.sujet}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
                     placeholder="Objet de votre message"
+                    className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/40"
                   />
                 </div>
 
-                {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-gray-300 mb-2">
+                  <label htmlFor="message" className="mb-2 block text-xs font-medium text-white/50">
                     Message *
                   </label>
                   <textarea
@@ -275,25 +397,24 @@ function ContactSection() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors resize-none"
-                    placeholder="Votre message..."
+                    placeholder="Décrivez votre besoin…"
+                    className="w-full resize-none rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/40"
                   />
                 </div>
 
-                {/* Bouton d'envoi */}
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="group flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-ink-950 transition hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isLoading ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Envoi en cours...
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-ink-950 border-t-transparent" />
+                      Envoi en cours…
                     </>
                   ) : (
                     <>
-                      <Send size={20} />
+                      <Send size={16} />
                       Envoyer le message
                     </>
                   )}
@@ -311,431 +432,549 @@ function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    const sections = NAV_ITEMS.map((item) => document.getElementById(item.id)).filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = showVideoModal ? 'hidden' : '';
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setShowVideoModal(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [showVideoModal]);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       setActiveSection(sectionId);
+      setMenuOpen(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
-      {/* Navigation moderne */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-slate-950/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
-      }`}>
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-              NAY Shaiffi
-            </div>
-            
-            <div className="hidden md:flex gap-8">
-              {['home', 'about', 'skills', 'experience'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className={`capitalize transition-all duration-300 ${
-                    activeSection === section 
-                      ? 'text-blue-400 font-semibold' 
-                      : 'text-gray-300 hover:text-white'
-                  }`}
-                >
-                  {section === 'home' ? 'Accueil' : 
-                   section === 'about' ? 'À propos' : 
-                   section === 'skills' ? 'Compétences' : 
-                   'Expérience'}
-                </button>
-              ))}
-            </div>
+    <div className="relative min-h-screen overflow-x-hidden bg-ink-950 font-sans text-white antialiased">
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute -top-48 left-1/2 h-[560px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(138,164,255,0.16),transparent_65%)] blur-2xl" />
+        <div className="absolute top-1/3 -right-40 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(45,212,191,0.1),transparent_65%)] blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.022)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.022)_1px,transparent_1px)] bg-[length:76px_76px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
+      </div>
 
-            <button 
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          isScrolled || menuOpen
+            ? 'border-b border-white/10 bg-ink-950/80 backdrop-blur-xl'
+            : 'border-b border-transparent bg-transparent'
+        }`}
+      >
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+          <button onClick={() => scrollToSection('home')} className="flex items-center gap-2.5">
+            <span className="grid h-8 w-8 place-items-center rounded-lg border border-accent/30 bg-accent/10 font-mono text-[11px] font-semibold text-accent">
+              NS
+            </span>
+            <span className="font-display text-sm font-semibold tracking-wide text-white">
+              nay shaiffi
+            </span>
+          </button>
+
+          <nav className="hidden items-center gap-1 md:flex">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`relative rounded-full px-4 py-2 text-sm transition-colors ${
+                  activeSection === item.id ? 'text-white' : 'text-white/45 hover:text-white/80'
+                }`}
+              >
+                {item.label}
+                {activeSection === item.id && (
+                  <span className="absolute inset-x-4 -bottom-px h-px bg-accent" />
+                )}
+              </button>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <button
               onClick={() => scrollToSection('contact')}
-              className="bg-gradient-to-r from-blue-500 to-emerald-500 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300"
+              className="hidden items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-ink-950 transition hover:bg-accent-soft md:inline-flex"
             >
-              Contact
+              Me contacter
+              <ArrowUpRight size={15} />
+            </button>
+            <button
+              onClick={() => setMenuOpen((open) => !open)}
+              className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-white/70 transition hover:border-white/20 hover:text-white md:hidden"
+              aria-label="Ouvrir le menu"
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
-      </nav>
 
-      {/* Hero Section - Redesigné */}
-      <section id="home" className="min-h-screen flex items-center pt-20">
-        <div className="max-w-7xl mx-auto px-6 py-16 w-full">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Colonne gauche */}
-            <div className="space-y-8 animate-fade-in">
-              <div className="space-y-4">
-                <h1 className="text-6xl lg:text-7xl font-bold text-white leading-tight">
-                  NAY <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">Shaiffi</span>
-                </h1>
-                
-                <p className="text-2xl text-gray-300 font-light">
-                  QA Engineer · Cypress · Robot Framework · SQL
-                </p>
-
-                <p className="text-xl text-gray-400 leading-relaxed pt-4">
-                  Je m'assure que les applications fonctionnent{' '}
-                  <span className="text-blue-400 font-semibold">parfaitement</span>{' '}
-                  avant qu'elles arrivent chez les{' '}
-                  <span className="text-emerald-400 font-semibold">utilisateurs</span>.{' '}
-                  Tests manuels, automatisation et{' '}
-                  <span className="text-purple-400 font-semibold">rapports de qualité</span>.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-4 pt-6">
-                <button 
-                  onClick={() => scrollToSection('contact')}
-                  className="group flex items-center gap-3 bg-gradient-to-r from-blue-500 to-emerald-500 text-white px-8 py-4 rounded-full font-medium shadow-lg hover:shadow-2xl hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300"
+        {menuOpen && (
+          <div className="border-t border-white/10 bg-ink-950/95 px-6 py-4 md:hidden">
+            <div className="flex flex-col">
+              {NAV_ITEMS.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`flex items-center justify-between border-b border-white/5 py-3 text-left text-sm last:border-0 ${
+                    activeSection === item.id ? 'text-accent' : 'text-white/60'
+                  }`}
                 >
-                  <Mail className="w-5 h-5" />
-                  <span>Me contacter</span>
+                  {item.label}
+                  <ArrowUpRight size={15} className="text-white/25" />
                 </button>
-                
-                <button 
-                  onClick={() => setShowVideoModal(true)}
-                  className="flex items-center gap-3 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-full font-medium border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300"
-                >
-                  <Code className="w-5 h-5" />
-                  <span>Visualiser un projet</span>
-                </button>
-              </div>
-
-              <div className="flex gap-4 pt-6">
-                <a href="https://github.com/nay2408" className="text-gray-400 hover:text-blue-400 transition-colors">
-                  <Github className="w-6 h-6" />
-                </a>
-                <a href="https://www.linkedin.com/in/shaiffi-nay-747870399/" className="text-gray-400 hover:text-blue-400 transition-colors">
-                  <Linkedin className="w-6 h-6" />
-                </a>
-              </div>
-            </div>
-
-            {/* Colonne droite - Photo avec effet moderne */}
-            <div className="relative flex justify-center lg:justify-end">
-              {/* Effets de fond animés */}
-              <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-pulse"></div>
-              <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/30 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-
-              <div className="relative z-10">
-                <div className="relative group">
-                  {/* Bordure animée */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-emerald-500 to-purple-500 rounded-3xl opacity-75 blur group-hover:opacity-100 transition duration-1000 animate-pulse"></div>
-                  
-                  {/* Carte photo */}
-                  <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden shadow-2xl w-80 h-96 border border-white/10">
-                    <div className="w-full h-full flex items-center justify-center p-8">
-                      <img src="/Fond.jpeg" alt="NAY Shaiffi" className='rounded-2xl w-full h-full object-cover'/>
-                    </div>
-                    
-                    {/* Overlay décoratif */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-emerald-500 to-purple-500"></div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
+        )}
+      </header>
 
-          {/* Scroll indicator */}
-          <div className="flex justify-center mt-16 animate-bounce">
-            <ChevronDown className="w-8 h-8 text-gray-400" />
-          </div>
-        </div>
-      </section>
-
-      {/* Section À Propos - Modernisée */}
-      <section id="about" className="py-32 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-950/20 to-transparent"></div>
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-20">
-            <span className="text-blue-400 font-semibold text-sm uppercase tracking-wider">Découvrir</span>
-            <h2 className="text-5xl font-bold text-white mt-4 mb-6">À propos de moi</h2>
-            <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto rounded-full"></div>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Histoire */}
-            <div className="space-y-6">
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-                <div className="flex items-center gap-3 mb-6">
-                  <Sparkles className="w-6 h-6 text-blue-400" />
-                  <h3 className="text-2xl font-semibold text-white">Mon parcours</h3>
-                </div>
-                
-                <div className="space-y-4 text-gray-300 leading-relaxed">
-                  <p>
-                    Passionné par la <span className="text-blue-400 font-semibold">qualité logicielle</span>, 
-                    la <span className="text-emerald-400 font-semibold">détection de bugs</span> et 
-                    l'<span className="text-purple-400 font-semibold">automatisation des tests</span>.
-                  </p>
-                  <p>
-                    Je construis des plans de test rigoureux, automatise les scénarios répétitifs et rédige des rapports clairs pour les équipes de développement.
-                  </p>
-                  <p>
-                    Je m'appelle <span className='font-bold text-white'>NAY Shaiffi</span>, 
-                    QA Engineer junior basé à Antananarivo, Madagascar. 
-                    Diplômé en informatique, je me spécialise dans les tests fonctionnels 
-                    et l'automatisation avec Cypress et Robot Framework.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Valeurs */}
-            <div className="space-y-6">
-              <div className="grid gap-6">
-                {[
-                  { icon: Code, title: 'Tests rigoureux', desc: 'Checklists structurées, cas limites et tests avancés' },
-                  { icon: Sparkles, title: 'Automatisation', desc: 'Cypress & Robot Framework pour les tests répétitifs' },
-                  { icon: Zap, title: 'Rapports clairs', desc: 'Documentation précise et compréhensible pour les devs' }
-                ].map((item, idx) => (
-                  <div key={idx} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <div className="bg-gradient-to-br from-blue-500 to-emerald-500 p-3 rounded-lg">
-                        <item.icon className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="text-white font-semibold text-lg mb-2">{item.title}</h4>
-                        <p className="text-gray-400 text-sm">{item.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section Compétences QA */}
-      <section id="skills" className="py-32 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <span className="text-emerald-400 font-semibold text-sm uppercase tracking-wider">Expertise</span>
-            <h2 className="text-5xl font-bold text-white mt-4 mb-6">Mes compétences QA</h2>
-            <div className="w-24 h-1.5 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full"></div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Tests */}
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-3 rounded-lg">
-                  <Package className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-white">Tests manuels</h3>
-              </div>
-              <div className="space-y-3">
-                {['Tests fonctionnels', 'Tests d\'authentification', 'Tests de régression', 'Tests avancés (réseau, session)', 'Rédaction de rapports de bugs', 'Checklists structurées'].map((skill, idx) => (
-                  <div key={idx} className="flex items-center gap-3 text-gray-300">
-                    <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex-shrink-0"></div>
-                    <span>{skill}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Automatisation */}
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-gradient-to-br from-emerald-500 to-blue-500 p-3 rounded-lg">
-                  <Layers className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-white">Automatisation</h3>
-              </div>
-              <div className="space-y-4">
-                {[
-                  { name: 'Cypress', level: '75%', color: 'from-emerald-400 to-cyan-400' },
-                  { name: 'Robot Framework', level: '60%', color: 'from-blue-400 to-purple-400' },
-                  { name: 'SQL', level: '50%', color: 'from-yellow-400 to-orange-400' },
-                ].map((tool, idx) => (
-                  <div key={idx}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-300">{tool.name}</span>
-                      <span className="text-gray-400">{tool.level}</span>
-                    </div>
-                    <div className="h-2 bg-white/10 rounded-full">
-                      <div className={`h-full bg-gradient-to-r ${tool.color} rounded-full`} style={{width: tool.level}}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Outils & Tech */}
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-gradient-to-br from-purple-500 to-pink-500 p-3 rounded-lg">
-                  <Code className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-white">Outils & Tech</h3>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {['Cypress', 'Robot Framework', 'Git', 'GitHub', 'SQL', 'JavaScript', 'React', 'ViteJS', 'HTML/CSS', 'Tailwind', 'Figma', 'Excel'].map((tech, idx) => (
-                  <span key={idx} className="bg-white/10 text-gray-300 px-3 py-1 rounded-full text-sm hover:bg-blue-500/20 hover:text-blue-300 transition-all">
-                    {tech}
+      <main className="relative z-10">
+        <section id="home" className="flex min-h-screen items-center pt-16">
+          <div className="mx-auto w-full max-w-6xl px-6 py-20">
+            <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr]">
+              <div className="animate-fade-up">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
+                    Disponible pour collaborations
                   </span>
-                ))}
+                </div>
+
+                <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.3em] text-accent">
+                  QA Engineer — Antananarivo
+                </p>
+
+                <h1 className="mt-4 font-display text-5xl font-semibold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
+                  NAY
+                  <br />
+                  <span className="text-white/85">Shaiffi.</span>
+                </h1>
+
+                <p className="mt-7 max-w-xl text-balance text-base leading-relaxed text-white/55 sm:text-lg">
+                  Je veille à la <span className="text-white">qualité des applications</span> avant
+                  leur mise en production : tests manuels, tests d’API, automatisation avec{' '}
+                  <span className="text-accent">Playwright</span> et rapports de bugs clairs pour les
+                  équipes.
+                </p>
+
+                <div className="mt-9 flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={() => scrollToSection('contact')}
+                    className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-ink-950 transition hover:bg-accent-soft"
+                  >
+                    Démarrer une discussion
+                    <ArrowUpRight
+                      size={16}
+                      className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  </button>
+                  <button
+                    onClick={() => setShowVideoModal(true)}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-sm font-medium text-white/75 transition hover:border-white/30 hover:text-white"
+                  >
+                    <Play size={15} />
+                    Voir la démo
+                  </button>
+                </div>
+
+                <div className="mt-9 flex items-center gap-5">
+                  <a
+                    href="https://github.com/nay2408"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    className="text-white/40 transition hover:text-white"
+                  >
+                    <Github size={19} />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/shaiffi-nay-747870399"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    className="text-white/40 transition hover:text-white"
+                  >
+                    <Linkedin size={19} />
+                  </a>
+                  <span className="h-px w-8 bg-white/15" />
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+                    Antananarivo, MG
+                  </span>
+                </div>
+              </div>
+
+              <div
+                className="relative mx-auto w-full max-w-sm animate-fade-up lg:mx-0 lg:ml-auto"
+                style={{ animationDelay: '120ms' }}
+              >
+                <div className="absolute -left-3 -top-3 h-24 w-24 rounded-2xl border border-accent/20" />
+                <div className="absolute -bottom-3 -right-3 h-24 w-24 rounded-2xl border border-white/10" />
+
+                <div className="relative rounded-[1.75rem] border border-white/10 bg-ink-850 p-2 shadow-[0_40px_90px_-45px_rgba(0,0,0,0.95)]">
+                  <div className="relative overflow-hidden rounded-[1.35rem]">
+                    <img
+                      src="/Fond.jpeg"
+                      alt="NAY Shaiffi"
+                      className="h-[26rem] w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/10 to-transparent" />
+                    <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-xl border border-white/10 bg-ink-950/70 px-4 py-3 backdrop-blur-md">
+                      <div>
+                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+                          Basé à
+                        </p>
+                        <p className="mt-0.5 text-sm text-white">Antananarivo, MG</p>
+                      </div>
+                      <MapPin size={18} className="text-accent" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Section Expérience - Timeline moderne */}
-      <section id="experience" className="py-32 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-950/20 to-transparent"></div>
-        
-        <div className="max-w-5xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-20">
-            <span className="text-purple-400 font-semibold text-sm uppercase tracking-wider">Parcours</span>
-            <h2 className="text-5xl font-bold text-white mt-4 mb-6">Mon expérience</h2>
-            <div className="w-24 h-1.5 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
-          </div>
-
-          <div className="space-y-12">
-            {/* DEVSOFT-PRO - QA actuel */}
-            <div className="relative pl-12 group">
-              <div className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-emerald-500 to-transparent"></div>
-              <div className="absolute left-[-8px] top-2 w-4 h-4 bg-emerald-500 rounded-full ring-4 ring-emerald-500/20 group-hover:ring-8 transition-all"></div>
-              
-              <div className="bg-white/5 backdrop-blur-sm border border-emerald-500/30 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-emerald-400 font-semibold text-sm">2026 — Présent</span>
-                  <span className="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-semibold">✅ Poste actuel</span>
+            <div className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/[0.08] sm:grid-cols-4">
+              {[
+                { label: 'Focus', value: 'Tests & QA' },
+                { label: 'Automatisation', value: 'Playwright' },
+                { label: 'API', value: 'Postman' },
+                { label: 'Base', value: 'Antananarivo' },
+              ].map((item) => (
+                <div key={item.label} className="bg-ink-950 px-5 py-4">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+                    {item.label}
+                  </p>
+                  <p className="mt-1.5 text-sm font-medium text-white/80">{item.value}</p>
                 </div>
-                <h3 className="text-2xl font-bold text-white mt-2 mb-1">QA Engineer</h3>
-                <p className="text-emerald-400 mb-3 font-medium">DEVSOFT-PRO · Antananarivo</p>
-                <p className="text-gray-300 leading-relaxed mb-4">
-                  Tests fonctionnels manuels et automatisation sur applications web. Rédaction de checklists structurées, rapports de bugs et automatisation des tests de login avec Cypress et Robot Framework.
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="about" className="border-t border-white/5 py-24 md:py-32">
+          <div className="mx-auto max-w-6xl px-6">
+            <SectionHeader
+              index="01"
+              label="À propos"
+              title="La qualité se joue dans les détails."
+              description="Un regard méthodique sur chaque fonctionnalité, du premier cas de test à la mise en production."
+            />
+
+            <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+              <div className="space-y-5 text-[15px] leading-relaxed text-white/55 md:text-base">
+                <p>
+                  Spécialisé en{' '}
+                  <span className="font-medium text-white">assurance qualité logicielle</span>, je
+                  mets en place des plans de test rigoureux, je détecte les anomalies critiques et
+                  j’automatise les scénarios récurrents afin de sécuriser chaque mise en production.
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {['Cypress', 'Robot Framework', 'Tests fonctionnels', 'Rapports de bugs'].map((tech, idx) => (
-                    <span key={idx} className="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-sm">
+                <p>
+                  J’élabore des checklists structurées, j’exécute des tests fonctionnels et je rédige
+                  des rapports de bugs clairs et directement exploitables par les équipes de
+                  développement.
+                </p>
+                <p>
+                  Je suis <span className="font-medium text-white">NAY Shaiffi</span>, QA Engineer
+                  junior basé à Antananarivo. Diplômé en informatique, je me spécialise dans les
+                  tests fonctionnels, les tests d’API et l’automatisation avec Playwright et
+                  Postman.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
+                  Profil
+                </p>
+                <dl className="mt-5 divide-y divide-white/10">
+                  {[
+                    { label: 'Poste', value: 'QA Engineer' },
+                    { label: 'Localisation', value: 'Antananarivo, Madagascar' },
+                    { label: 'Spécialités', value: 'Tests manuels, API, Playwright' },
+                    { label: 'Formation', value: 'Informatique' },
+                  ].map((row) => (
+                    <div key={row.label} className="flex items-start justify-between gap-6 py-3 first:pt-0 last:pb-0">
+                      <dt className="text-xs text-white/40">{row.label}</dt>
+                      <dd className="text-right text-sm text-white/80">{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </div>
+
+            <div className="mt-12 grid gap-4 sm:grid-cols-3">
+              {VALUES.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-white/20 hover:bg-white/[0.05]"
+                >
+                  <span className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
+                    <item.icon size={18} />
+                  </span>
+                  <h3 className="mt-4 font-display text-base font-semibold text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/50">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="skills" className="border-t border-white/5 py-24 md:py-32">
+          <div className="mx-auto max-w-6xl px-6">
+            <SectionHeader
+              index="02"
+              label="Compétences"
+              title="Ce que je maîtrise."
+              description="Des tests manuels structurés à l’automatisation ciblée des scénarios les plus critiques."
+            />
+
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
+                    <CheckCircle2 size={18} />
+                  </span>
+                  <h3 className="font-display text-base font-semibold text-white">Tests manuels</h3>
+                </div>
+                <ul className="mt-6 space-y-3">
+                  {MANUAL_SKILLS.map((skill) => (
+                    <li key={skill} className="flex items-start gap-3 text-sm text-white/55">
+                      <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-accent" />
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
+                    <Layers size={18} />
+                  </span>
+                  <h3 className="font-display text-base font-semibold text-white">Automatisation & API</h3>
+                </div>
+                <div className="mt-6 space-y-5">
+                  {AUTOMATION_SKILLS.map((tool) => (
+                    <div key={tool.name}>
+                      <div className="mb-2 flex items-center justify-between text-xs">
+                        <span className="text-white/70">{tool.name}</span>
+                        <span className="font-mono text-white/35">{tool.level}%</span>
+                      </div>
+                      <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+                        <div
+                          className={`h-full rounded-full ${tool.bar}`}
+                          style={{ width: `${tool.level}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
+                    <Code2 size={18} />
+                  </span>
+                  <h3 className="font-display text-base font-semibold text-white">Outils & Tech</h3>
+                </div>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {TOOLS.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-white/55 transition hover:border-white/25 hover:text-white"
+                    >
                       {tech}
                     </span>
                   ))}
                 </div>
               </div>
             </div>
+          </div>
+        </section>
 
-            {/* Ministère */}
-            <div className="relative pl-12 group">
-              <div className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-blue-500 to-transparent"></div>
-              <div className="absolute left-[-8px] top-2 w-4 h-4 bg-blue-500 rounded-full ring-4 ring-blue-500/20 group-hover:ring-8 transition-all"></div>
-              
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-                <span className="text-blue-400 font-semibold text-sm">Juillet 2025 — Novembre 2025</span>
-                <h3 className="text-2xl font-bold text-white mt-2 mb-1">
-                  Chargé de projet numérique
-                </h3>
-                <p className="text-blue-400 mb-3 font-medium">Ministère des Travaux Publics · Anosy</p>
-                <p className="text-gray-300 leading-relaxed">
-                  Conception d'un outil de suivi des échanges parlementaires. Interfaces fluides avec Tailwind CSS et JavaScript.
-                </p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {['Tailwind CSS', 'JavaScript', 'Gestion de projet'].map((tech, idx) => (
-                    <span key={idx} className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+        <section id="experience" className="border-t border-white/5 py-24 md:py-32">
+          <div className="mx-auto max-w-6xl px-6">
+            <SectionHeader
+              index="03"
+              label="Expérience"
+              title="Parcours professionnel."
+              description="De la qualité logicielle à la gestion de projet numérique, une trajectoire centrée sur les usages."
+            />
 
-            {/* Paositra */}
-            <div className="relative pl-12 group">
-              <div className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-purple-500 to-transparent"></div>
-              <div className="absolute left-[-8px] top-2 w-4 h-4 bg-purple-500 rounded-full ring-4 ring-purple-500/20 group-hover:ring-8 transition-all"></div>
-              
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:scale-105 transition-all duration-300">
-                <span className="text-purple-400 font-semibold text-sm">Novembre 2024 — Janvier 2025</span>
-                <h3 className="text-2xl font-bold text-white mt-2 mb-1">
-                  Apprenti Développeur Web
-                </h3>
-                <p className="text-purple-400 mb-3 font-medium">Paositra Malagasy</p>
-                <p className="text-gray-300 leading-relaxed">
-                  Développement d'un outil de conversion de devises (Ariary, Euro, Dollars).
-                </p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {['Full-stack', 'JavaScript', 'Logique métier'].map((tech, idx) => (
-                    <span key={idx} className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm">
-                      {tech}
+            <div className="space-y-4">
+              {EXPERIENCES.map((exp) => (
+                <div
+                  key={`${exp.company}-${exp.period}`}
+                  className="group grid gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition hover:border-white/20 hover:bg-white/[0.04] md:grid-cols-[190px_1fr] md:p-8"
+                >
+                  <div className="flex items-start justify-between gap-3 md:flex-col md:justify-start">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-white/40">
+                      {exp.period}
                     </span>
-                  ))}
+                    {exp.current && (
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-emerald-300">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                        Actuel
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h3 className="font-display text-xl font-semibold text-white">{exp.role}</h3>
+                        <p className="mt-1 text-sm text-accent">{exp.company}</p>
+                      </div>
+                      {exp.location && (
+                        <span className="hidden font-mono text-[11px] uppercase tracking-[0.12em] text-white/30 md:block">
+                          {exp.location}
+                        </span>
+                      )}
+                    </div>
+
+                    <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/55">
+                      {exp.description}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {exp.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/55"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Section Contact */}
-      <ContactSection />
+        <ContactSection />
+
+        <footer className="border-t border-white/5 py-10">
+          <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 sm:flex-row sm:items-center">
+            <div>
+              <p className="font-display text-lg font-semibold text-white">NAY Shaiffi</p>
+              <p className="mt-1 text-sm text-white/35">QA Engineer · Antananarivo, Madagascar</p>
+            </div>
+
+            <div className="flex items-center gap-5">
+              <a
+                href="https://github.com/nay2408"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="text-white/40 transition hover:text-white"
+              >
+                <Github size={18} />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/shaiffi-nay-747870399"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="text-white/40 transition hover:text-white"
+              >
+                <Linkedin size={18} />
+              </a>
+              <button
+                onClick={() => scrollToSection('home')}
+                className="inline-flex items-center gap-1.5 text-sm text-white/45 transition hover:text-white"
+              >
+                Haut de page
+                <ArrowUpRight size={14} className="-rotate-45" />
+              </button>
+            </div>
+          </div>
+        </footer>
+      </main>
+
       {showVideoModal && (
-  <div 
-    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
-    onClick={() => setShowVideoModal(false)}
-  >
-    <div 
-      className="relative w-full max-w-5xl bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl shadow-2xl border border-white/10 overflow-hidden"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* Header de la modale */}
-      <div className="flex items-center justify-between p-6 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <div className="bg-gradient-to-br from-blue-500 to-emerald-500 p-2 rounded-lg">
-            <Code className="w-5 h-5 text-white" />
-          </div>
-          <h3 className="text-2xl font-bold text-white">Démonstration du projet</h3>
-        </div>
-        <button
+        <div
+          className="fixed inset-0 z-[100] flex animate-fade-in items-center justify-center bg-ink-950/90 p-4 backdrop-blur-md"
           onClick={() => setShowVideoModal(false)}
-          className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Démonstration du projet"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
+          <div
+            className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-ink-900 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+              <div className="flex items-center gap-3">
+                <span className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
+                  <Code2 size={17} />
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-white">
+                    Démonstration du projet
+                  </h3>
+                  <p className="text-xs text-white/40">Scénario QA filmé</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowVideoModal(false)}
+                className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-white/50 transition hover:border-white/20 hover:text-white"
+                aria-label="Fermer"
+              >
+                <X size={18} />
+              </button>
+            </div>
 
-      {/* Contenu vidéo */}
-      <div className="p-6">
-        <div className="relative bg-black rounded-2xl overflow-hidden shadow-2xl">
-          <video
-  src="/demonstration.mp4"
-  controls
-  autoPlay
-  muted  
-  playsInline  
-  preload="metadata"
-  onEnded={() => setShowVideoModal(false)}
->
-          </video>
+            <div className="p-4 md:p-6">
+              <div className="overflow-hidden rounded-xl border border-white/10 bg-black">
+                <video
+                  src="/demonstration.mp4"
+                  controls
+                  autoPlay
+                  muted
+                  playsInline
+                  preload="metadata"
+                  onEnded={() => setShowVideoModal(false)}
+                  className="w-full"
+                />
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-white/45">
+                <span className="font-medium text-white">Note :</span> vidéo de démonstration d’un
+                projet développé durant mon expérience professionnelle.
+              </p>
+            </div>
+          </div>
         </div>
-        
-        {/* Description optionnelle */}
-        <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10">
-          <p className="text-gray-300 text-sm">
-            <span className="font-semibold text-white">Note:</span> Vidéo de démonstration du projet développé durant mon expérience professionnelle.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
     </div>
   );
 }
