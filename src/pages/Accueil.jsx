@@ -21,63 +21,19 @@ import {
   Sparkles,
   X,
 } from 'lucide-react';
+import LanguageSwitcher from '../Components/LanguageSwitcher';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const EMAILJS_SERVICE_ID = 'service_v9acyg9';
 const EMAILJS_TEMPLATE_ID = 'template_bgc3w0c';
 const EMAILJS_PUBLIC_KEY = 'oEr--0Ipt5fYwXVl7';
 
-const NAV_ITEMS = [
-  { id: 'home', label: 'Accueil' },
-  { id: 'about', label: 'À propos' },
-  { id: 'skills', label: 'Compétences' },
-  { id: 'experience', label: 'Expérience' },
-  { id: 'contact', label: 'Contact' },
-];
-
-const EXPERIENCES = [
-  {
-    period: '2026 — Présent',
-    role: 'QA Engineer',
-    company: 'DEVSOFT-PRO',
-    location: 'Antananarivo',
-    current: true,
-    description:
-      "Tests fonctionnels manuels et automatisation des scénarios récurrents sur applications web. Rédaction de checklists structurées, rapports de bugs détaillés et suivi de la qualité jusqu'à la mise en production.",
-    tags: ['Playwright', 'Tests fonctionnels', 'Tests API', 'Rapports de bugs'],
-  },
-  {
-    period: 'Juil. — Nov. 2025',
-    role: 'Chargé de projet numérique',
-    company: 'Ministère des Travaux Publics',
-    location: 'Anosy',
-    description:
-      "Conception d'un outil de suivi des échanges parlementaires. Interfaces fluides et accessibles développées avec Tailwind CSS et JavaScript.",
-    tags: ['Tailwind CSS', 'JavaScript', 'Gestion de projet'],
-  },
-  {
-    period: 'Nov. 2024 — Janv. 2025',
-    role: 'Apprenti Développeur Web',
-    company: 'Paositra Malagasy',
-    location: '',
-    description:
-      "Développement d'un outil de conversion de devises (Ariary, Euro, Dollar) avec une logique métier fiable et une interface simple d'utilisation.",
-    tags: ['Full-stack', 'JavaScript', 'Logique métier'],
-  },
-];
+const NAV_ITEMS = ['home', 'about', 'skills', 'experience', 'contact'];
 
 const AUTOMATION_SKILLS = [
   { name: 'Playwright', level: 75, bar: 'bg-accent' },
   { name: 'Postman', level: 60, bar: 'bg-emerald-400' },
   { name: 'SQL', level: 50, bar: 'bg-amber-400' },
-];
-
-const MANUAL_SKILLS = [
-  'Tests fonctionnels',
-  "Tests d'authentification",
-  'Tests de régression',
-  'Tests avancés (réseau, session)',
-  'Rapports de bugs',
-  'Checklists structurées',
 ];
 
 const TOOLS = [
@@ -96,21 +52,9 @@ const TOOLS = [
 ];
 
 const VALUES = [
-  {
-    icon: ShieldCheck,
-    title: 'Tests rigoureux',
-    desc: 'Plans de test structurés, cas limites et scénarios avancés.',
-  },
-  {
-    icon: Sparkles,
-    title: 'Automatisation',
-    desc: 'Playwright pour les tests récurrents, Postman pour les tests d’API.',
-  },
-  {
-    icon: Bug,
-    title: 'Rapports clairs',
-    desc: 'Des bugs documentés de façon précise et directement exploitable.',
-  },
+  { icon: ShieldCheck, key: 'rigorous' },
+  { icon: Sparkles, key: 'automation' },
+  { icon: Bug, key: 'reports' },
 ];
 
 function SectionHeader({ index, label, title, description }) {
@@ -132,6 +76,7 @@ function SectionHeader({ index, label, title, description }) {
 }
 
 export function ContactSection() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     nom: '',
     email: '',
@@ -192,16 +137,16 @@ export function ContactSection() {
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeader
           index="04"
-          label="Contact"
-          title="Discutons de votre prochain projet."
-          description="Une question, une opportunité ou un besoin en assurance qualité ? Écrivez-moi."
+          label={t.contact.label}
+          title={t.contact.title}
+          description={t.contact.description}
         />
 
         <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-4">
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
               <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
-                Coordonnées
+                {t.contact.details}
               </p>
 
               <div className="space-y-1">
@@ -213,7 +158,7 @@ export function ContactSection() {
                     <Mail size={18} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-xs text-white/40">Email</span>
+                    <span className="block text-xs text-white/40">{t.contact.email}</span>
                     <span className="block truncate text-sm text-white">shaiffinay07@gmail.com</span>
                   </span>
                   <ArrowUpRight
@@ -230,7 +175,7 @@ export function ContactSection() {
                     <Phone size={18} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-xs text-white/40">Téléphone</span>
+                    <span className="block text-xs text-white/40">{t.contact.phone}</span>
                     <span className="block text-sm text-white">+261 34 96 349 74</span>
                   </span>
                   <ArrowUpRight
@@ -244,7 +189,7 @@ export function ContactSection() {
                     <MapPin size={18} />
                   </span>
                   <span>
-                    <span className="block text-xs text-white/40">Localisation</span>
+                    <span className="block text-xs text-white/40">{t.contact.location}</span>
                     <span className="block text-sm text-white">Antananarivo, Madagascar</span>
                   </span>
                 </div>
@@ -258,8 +203,8 @@ export function ContactSection() {
                     <FileText size={18} />
                   </span>
                   <span>
-                    <span className="block text-sm font-medium text-white">Télécharger mon CV</span>
-                    <span className="block text-xs text-white/45">Document PDF</span>
+                    <span className="block text-sm font-medium text-white">{t.contact.downloadCV}</span>
+                    <span className="block text-xs text-white/45">{t.contact.pdf}</span>
                   </span>
                   <Download size={16} className="ml-auto flex-shrink-0 text-accent" />
                 </a>
@@ -268,7 +213,7 @@ export function ContactSection() {
 
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
               <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
-                Réseaux
+                {t.contact.social}
               </p>
               <div className="grid grid-cols-2 gap-3">
                 <a
@@ -297,26 +242,26 @@ export function ContactSection() {
                 <CheckCircle2 size={18} />
               </span>
               <div>
-                <p className="text-sm font-medium text-white">Ouvert aux propositions</p>
+                <p className="text-sm font-medium text-white">{t.contact.open}</p>
                 <p className="mt-1 text-sm leading-relaxed text-white/50">
-                  Disponible pour des missions freelance et des opportunités en assurance qualité.
+                  {t.contact.openDesc}
                 </p>
               </div>
             </div>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
-            <h3 className="font-display text-xl font-semibold text-white">Envoyez-moi un message</h3>
-            <p className="mt-2 text-sm text-white/45">Réponse sous 24 à 48 heures.</p>
+            <h3 className="font-display text-xl font-semibold text-white">{t.contact.sendTitle}</h3>
+            <p className="mt-2 text-sm text-white/45">{t.contact.reply}</p>
 
             {isSubmitted ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
                 <div className="grid h-14 w-14 place-items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 text-emerald-300">
                   <CheckCircle2 size={26} />
                 </div>
-                <h4 className="mt-5 font-display text-lg font-semibold text-white">Message envoyé</h4>
+                <h4 className="mt-5 font-display text-lg font-semibold text-white">{t.contact.sent}</h4>
                 <p className="mt-2 text-sm text-white/50">
-                  Merci pour votre message, je reviens vers vous très vite.
+                  {t.contact.sentDesc}
                 </p>
               </div>
             ) : isError ? (
@@ -324,15 +269,15 @@ export function ContactSection() {
                 <div className="grid h-14 w-14 place-items-center rounded-full border border-red-400/30 bg-red-400/10 text-red-300">
                   <AlertCircle size={26} />
                 </div>
-                <h4 className="mt-5 font-display text-lg font-semibold text-white">Erreur d’envoi</h4>
+                <h4 className="mt-5 font-display text-lg font-semibold text-white">{t.contact.error}</h4>
                 <p className="mt-2 text-sm text-white/50">
-                  Une erreur s’est produite. Merci de réessayer.
+                  {t.contact.errorDesc}
                 </p>
                 <button
                   onClick={() => setIsError(false)}
                   className="mt-4 text-sm font-medium text-accent underline underline-offset-4 hover:text-accent-soft"
                 >
-                  Retour au formulaire
+                  {t.contact.back}
                 </button>
               </div>
             ) : (
@@ -340,7 +285,7 @@ export function ContactSection() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="nom" className="mb-2 block text-xs font-medium text-white/50">
-                      Nom complet *
+                      {t.contact.form.name}
                     </label>
                     <input
                       type="text"
@@ -349,7 +294,7 @@ export function ContactSection() {
                       value={formData.nom}
                       onChange={handleChange}
                       required
-                      placeholder="Votre nom"
+                      placeholder={t.contact.form.namePlaceholder}
                       className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/40"
                     />
                   </div>
@@ -372,7 +317,7 @@ export function ContactSection() {
 
                 <div>
                   <label htmlFor="sujet" className="mb-2 block text-xs font-medium text-white/50">
-                    Sujet *
+                    {t.contact.form.subject}
                   </label>
                   <input
                     type="text"
@@ -381,7 +326,7 @@ export function ContactSection() {
                     value={formData.sujet}
                     onChange={handleChange}
                     required
-                    placeholder="Objet de votre message"
+                    placeholder={t.contact.form.subjectPlaceholder}
                     className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/40"
                   />
                 </div>
@@ -397,7 +342,7 @@ export function ContactSection() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    placeholder="Décrivez votre besoin…"
+                    placeholder={t.contact.form.messagePlaceholder}
                     className="w-full resize-none rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/40"
                   />
                 </div>
@@ -410,12 +355,12 @@ export function ContactSection() {
                   {isLoading ? (
                     <>
                       <span className="h-4 w-4 animate-spin rounded-full border-2 border-ink-950 border-t-transparent" />
-                      Envoi en cours…
+                      {t.contact.form.sending}
                     </>
                   ) : (
                     <>
                       <Send size={16} />
-                      Envoyer le message
+                      {t.contact.form.send}
                     </>
                   )}
                 </button>
@@ -429,6 +374,7 @@ export function ContactSection() {
 }
 
 function Portfolio() {
+  const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
@@ -441,7 +387,7 @@ function Portfolio() {
   }, []);
 
   useEffect(() => {
-    const sections = NAV_ITEMS.map((item) => document.getElementById(item.id)).filter(Boolean);
+    const sections = NAV_ITEMS.map((item) => document.getElementById(item)).filter(Boolean);
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -501,17 +447,17 @@ function Portfolio() {
             </span>
           </button>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-1 lg:flex">
             {NAV_ITEMS.map((item) => (
               <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
+                key={item}
+                onClick={() => scrollToSection(item)}
                 className={`relative rounded-full px-4 py-2 text-sm transition-colors ${
-                  activeSection === item.id ? 'text-white' : 'text-white/45 hover:text-white/80'
+                  activeSection === item ? 'text-white' : 'text-white/45 hover:text-white/80'
                 }`}
               >
-                {item.label}
-                {activeSection === item.id && (
+                {t.nav[item]}
+                {activeSection === item && (
                   <span className="absolute inset-x-4 -bottom-px h-px bg-accent" />
                 )}
               </button>
@@ -519,17 +465,18 @@ function Portfolio() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <LanguageSwitcher />
             <button
               onClick={() => scrollToSection('contact')}
-              className="hidden items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-ink-950 transition hover:bg-accent-soft md:inline-flex"
+              className="hidden items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-ink-950 transition hover:bg-accent-soft lg:inline-flex"
             >
-              Me contacter
+              {t.nav.cta}
               <ArrowUpRight size={15} />
             </button>
             <button
               onClick={() => setMenuOpen((open) => !open)}
-              className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-white/70 transition hover:border-white/20 hover:text-white md:hidden"
-              aria-label="Ouvrir le menu"
+              className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-white/70 transition hover:border-white/20 hover:text-white lg:hidden"
+              aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
               aria-expanded={menuOpen}
             >
               {menuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -538,17 +485,17 @@ function Portfolio() {
         </div>
 
         {menuOpen && (
-          <div className="border-t border-white/10 bg-ink-950/95 px-6 py-4 md:hidden">
+          <div className="border-t border-white/10 bg-ink-950/95 px-6 py-4 lg:hidden">
             <div className="flex flex-col">
               {NAV_ITEMS.map((item) => (
                 <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  key={item}
+                  onClick={() => scrollToSection(item)}
                   className={`flex items-center justify-between border-b border-white/5 py-3 text-left text-sm last:border-0 ${
-                    activeSection === item.id ? 'text-accent' : 'text-white/60'
+                    activeSection === item ? 'text-accent' : 'text-white/60'
                   }`}
                 >
-                  {item.label}
+                  {t.nav[item]}
                   <ArrowUpRight size={15} className="text-white/25" />
                 </button>
               ))}
@@ -565,12 +512,12 @@ function Portfolio() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
-                    Disponible pour collaborations
+                    {t.hero.availability}
                   </span>
                 </div>
 
                 <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.3em] text-accent">
-                  QA Engineer — Antananarivo
+                  {t.hero.role}
                 </p>
 
                 <h1 className="mt-4 font-display text-5xl font-semibold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
@@ -580,10 +527,11 @@ function Portfolio() {
                 </h1>
 
                 <p className="mt-7 max-w-xl text-balance text-base leading-relaxed text-white/55 sm:text-lg">
-                  Je veille à la <span className="text-white">qualité des applications</span> avant
-                  leur mise en production : tests manuels, tests d’API, automatisation avec{' '}
-                  <span className="text-accent">Playwright</span> et rapports de bugs clairs pour les
-                  équipes.
+                  {t.hero.introLead}
+                  <span className="text-white">{t.hero.introHighlight}</span>
+                  {t.hero.introMiddle}
+                  <span className="text-accent">{t.hero.introTool}</span>
+                  {t.hero.introTail}
                 </p>
 
                 <div className="mt-9 flex flex-wrap items-center gap-3">
@@ -591,7 +539,7 @@ function Portfolio() {
                     onClick={() => scrollToSection('contact')}
                     className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-ink-950 transition hover:bg-accent-soft"
                   >
-                    Démarrer une discussion
+                    {t.hero.start}
                     <ArrowUpRight
                       size={16}
                       className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -602,7 +550,7 @@ function Portfolio() {
                     className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-sm font-medium text-white/75 transition hover:border-white/30 hover:text-white"
                   >
                     <Play size={15} />
-                    Voir la démo
+                    {t.hero.demo}
                   </button>
                 </div>
 
@@ -627,7 +575,7 @@ function Portfolio() {
                   </a>
                   <span className="h-px w-8 bg-white/15" />
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
-                    Antananarivo, MG
+                    {t.hero.location}
                   </span>
                 </div>
               </div>
@@ -642,17 +590,19 @@ function Portfolio() {
                 <div className="relative rounded-[1.75rem] border border-white/10 bg-ink-850 p-2 shadow-[0_40px_90px_-45px_rgba(0,0,0,0.95)]">
                   <div className="relative overflow-hidden rounded-[1.35rem]">
                     <img
-                      src="/Fond.jpeg"
+                      src="/portrait-shaiffi.jpg"
                       alt="NAY Shaiffi"
+                      width="736"
+                      height="832"
                       className="h-[26rem] w-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/10 to-transparent" />
                     <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-xl border border-white/10 bg-ink-950/70 px-4 py-3 backdrop-blur-md">
                       <div>
                         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
-                          Basé à
+                          {t.hero.basedIn}
                         </p>
-                        <p className="mt-0.5 text-sm text-white">Antananarivo, MG</p>
+                        <p className="mt-0.5 text-sm text-white">{t.hero.location}</p>
                       </div>
                       <MapPin size={18} className="text-accent" />
                     </div>
@@ -663,10 +613,10 @@ function Portfolio() {
 
             <div className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/[0.08] sm:grid-cols-4">
               {[
-                { label: 'Focus', value: 'Tests & QA' },
-                { label: 'Automatisation', value: 'Playwright' },
-                { label: 'API', value: 'Postman' },
-                { label: 'Base', value: 'Antananarivo' },
+                { label: t.hero.stats.focus, value: t.hero.stats.focusValue },
+                { label: t.hero.stats.automation, value: t.hero.stats.automationValue },
+                { label: t.hero.stats.api, value: t.hero.stats.apiValue },
+                { label: t.hero.stats.base, value: t.hero.stats.baseValue },
               ].map((item) => (
                 <div key={item.label} className="bg-ink-950 px-5 py-4">
                   <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
@@ -683,43 +633,32 @@ function Portfolio() {
           <div className="mx-auto max-w-6xl px-6">
             <SectionHeader
               index="01"
-              label="À propos"
-              title="La qualité se joue dans les détails."
-              description="Un regard méthodique sur chaque fonctionnalité, du premier cas de test à la mise en production."
+              label={t.about.label}
+              title={t.about.title}
+              description={t.about.description}
             />
 
             <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
               <div className="space-y-5 text-[15px] leading-relaxed text-white/55 md:text-base">
                 <p>
-                  Spécialisé en{' '}
-                  <span className="font-medium text-white">assurance qualité logicielle</span>, je
-                  mets en place des plans de test rigoureux, je détecte les anomalies critiques et
-                  j’automatise les scénarios récurrents afin de sécuriser chaque mise en production.
+                  {t.about.p1Lead}
+                  <span className="font-medium text-white">{t.about.p1Highlight}</span>
+                  {t.about.p1Tail}
                 </p>
+                <p>{t.about.p2}</p>
                 <p>
-                  J’élabore des checklists structurées, j’exécute des tests fonctionnels et je rédige
-                  des rapports de bugs clairs et directement exploitables par les équipes de
-                  développement.
-                </p>
-                <p>
-                  Je suis <span className="font-medium text-white">NAY Shaiffi</span>, QA Engineer
-                  junior basé à Antananarivo. Diplômé en informatique, je me spécialise dans les
-                  tests fonctionnels, les tests d’API et l’automatisation avec Playwright et
-                  Postman.
+                  {t.about.p3Lead}
+                  <span className="font-medium text-white">{t.about.p3Highlight}</span>
+                  {t.about.p3Tail}
                 </p>
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
                 <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
-                  Profil
+                  {t.about.profile}
                 </p>
                 <dl className="mt-5 divide-y divide-white/10">
-                  {[
-                    { label: 'Poste', value: 'QA Engineer' },
-                    { label: 'Localisation', value: 'Antananarivo, Madagascar' },
-                    { label: 'Spécialités', value: 'Tests manuels, API, Playwright' },
-                    { label: 'Formation', value: 'Informatique' },
-                  ].map((row) => (
+                  {t.about.rows.map((row) => (
                     <div key={row.label} className="flex items-start justify-between gap-6 py-3 first:pt-0 last:pb-0">
                       <dt className="text-xs text-white/40">{row.label}</dt>
                       <dd className="text-right text-sm text-white/80">{row.value}</dd>
@@ -730,18 +669,23 @@ function Portfolio() {
             </div>
 
             <div className="mt-12 grid gap-4 sm:grid-cols-3">
-              {VALUES.map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-white/20 hover:bg-white/[0.05]"
-                >
-                  <span className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
-                    <item.icon size={18} />
-                  </span>
-                  <h3 className="mt-4 font-display text-base font-semibold text-white">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/50">{item.desc}</p>
-                </div>
-              ))}
+              {VALUES.map((item) => {
+                const value = t.about.values[item.key];
+                return (
+                  <div
+                    key={item.key}
+                    className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-white/20 hover:bg-white/[0.05]"
+                  >
+                    <span className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
+                      <item.icon size={18} />
+                    </span>
+                    <h3 className="mt-4 font-display text-base font-semibold text-white">
+                      {value.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-white/50">{value.desc}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -750,9 +694,9 @@ function Portfolio() {
           <div className="mx-auto max-w-6xl px-6">
             <SectionHeader
               index="02"
-              label="Compétences"
-              title="Ce que je maîtrise."
-              description="Des tests manuels structurés à l’automatisation ciblée des scénarios les plus critiques."
+              label={t.skills.label}
+              title={t.skills.title}
+              description={t.skills.description}
             />
 
             <div className="grid gap-4 md:grid-cols-3">
@@ -761,10 +705,10 @@ function Portfolio() {
                   <span className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
                     <CheckCircle2 size={18} />
                   </span>
-                  <h3 className="font-display text-base font-semibold text-white">Tests manuels</h3>
+                  <h3 className="font-display text-base font-semibold text-white">{t.skills.manual}</h3>
                 </div>
                 <ul className="mt-6 space-y-3">
-                  {MANUAL_SKILLS.map((skill) => (
+                  {t.skills.manualItems.map((skill) => (
                     <li key={skill} className="flex items-start gap-3 text-sm text-white/55">
                       <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-accent" />
                       {skill}
@@ -778,7 +722,7 @@ function Portfolio() {
                   <span className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
                     <Layers size={18} />
                   </span>
-                  <h3 className="font-display text-base font-semibold text-white">Automatisation & API</h3>
+                  <h3 className="font-display text-base font-semibold text-white">{t.skills.automation}</h3>
                 </div>
                 <div className="mt-6 space-y-5">
                   {AUTOMATION_SKILLS.map((tool) => (
@@ -803,7 +747,7 @@ function Portfolio() {
                   <span className="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-accent">
                     <Code2 size={18} />
                   </span>
-                  <h3 className="font-display text-base font-semibold text-white">Outils & Tech</h3>
+                  <h3 className="font-display text-base font-semibold text-white">{t.skills.tools}</h3>
                 </div>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {TOOLS.map((tech) => (
@@ -824,13 +768,13 @@ function Portfolio() {
           <div className="mx-auto max-w-6xl px-6">
             <SectionHeader
               index="03"
-              label="Expérience"
-              title="Parcours professionnel."
-              description="De la qualité logicielle à la gestion de projet numérique, une trajectoire centrée sur les usages."
+              label={t.experience.label}
+              title={t.experience.title}
+              description={t.experience.description}
             />
 
             <div className="space-y-4">
-              {EXPERIENCES.map((exp) => (
+              {t.experience.items.map((exp) => (
                 <div
                   key={`${exp.company}-${exp.period}`}
                   className="group grid gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition hover:border-white/20 hover:bg-white/[0.04] md:grid-cols-[190px_1fr] md:p-8"
@@ -842,7 +786,7 @@ function Portfolio() {
                     {exp.current && (
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-emerald-300">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                        Actuel
+                        {t.experience.current}
                       </span>
                     )}
                   </div>
@@ -913,7 +857,7 @@ function Portfolio() {
                 onClick={() => scrollToSection('home')}
                 className="inline-flex items-center gap-1.5 text-sm text-white/45 transition hover:text-white"
               >
-                Haut de page
+                {t.footer.backToTop}
                 <ArrowUpRight size={14} className="-rotate-45" />
               </button>
             </div>
@@ -927,7 +871,7 @@ function Portfolio() {
           onClick={() => setShowVideoModal(false)}
           role="dialog"
           aria-modal="true"
-          aria-label="Démonstration du projet"
+          aria-label={t.video.aria}
         >
           <div
             className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-ink-900 shadow-2xl"
@@ -940,15 +884,15 @@ function Portfolio() {
                 </span>
                 <div>
                   <h3 className="font-display text-base font-semibold text-white">
-                    Démonstration du projet
+                    {t.video.title}
                   </h3>
-                  <p className="text-xs text-white/40">Scénario QA filmé</p>
+                  <p className="text-xs text-white/40">{t.video.subtitle}</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowVideoModal(false)}
                 className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-white/50 transition hover:border-white/20 hover:text-white"
-                aria-label="Fermer"
+                aria-label={t.video.close}
               >
                 <X size={18} />
               </button>
@@ -968,8 +912,8 @@ function Portfolio() {
                 />
               </div>
               <p className="mt-4 text-sm leading-relaxed text-white/45">
-                <span className="font-medium text-white">Note :</span> vidéo de démonstration d’un
-                projet développé durant mon expérience professionnelle.
+                <span className="font-medium text-white">{t.video.note}</span>{' '}
+                {t.video.noteText}
               </p>
             </div>
           </div>
